@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const passport = require('passport');
+const passportLocalMongoose = require('passport-local-mongoose')
 const userSchema=new mongoose.Schema({
     email:{
         type:String,
@@ -42,6 +44,10 @@ const userSchema=new mongoose.Schema({
     timestamps:true
 });
 
+userSchema.plugin(passportLocalMongoose);
+// CHANGE: USE "createStrategy" INSTEAD OF "authenticate"
 
 const User= mongoose.model('User',userSchema);
+
+passport.use(User.createStrategy());
 module.exports = User;
